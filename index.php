@@ -39,16 +39,26 @@
     <button class="w3-btn w3-round-xxlarge w3-cusblk w3-padding w3-allerta w3-animate-right"><i class="fa fa-comment"></i> &nbsp;Give a feedback to someone</button>
 </div>
 
-<div id="createPage" class="w3-container w3-display-middle w3-center" hidden>
+<div id="createPage" class="w3-display-middle w3-center" hidden>
     <img src="images/logo.png" style="width: 120px;height: auto" class="w3-animate-top">
     <h3 class="w3-text-cuswhi w3-allerta w3-animate-zoom">Let Me Know</h3>
     <p class="w3-animate-bottom">Lets start !!!</p>
-    <input class="w3-input w3-round-xxlarge" style="text-align: center;"  placeholder="Your preferred username" type="text" onkeyup="this.value = this.value.replace(/[^a-zA-Z0-9]/, '')" required  />
-    <p class="w3-left-align w3-animate-top" style="margin-top: -3px;font-size: small"><i class="fa fa-warning"></i>&nbsp;&nbsp;Username already in use</p>
-    <input class="w3-input w3-round-xxlarge w3-margin-top" style="text-align: center;"  placeholder="Your Email" type="email" required  />
-    <p class="w3-left-align w3-animate-top" style="margin-top: -3px;font-size: small"><i class="fa fa-warning"></i>&nbsp;&nbsp;Email already registered</p>
+    <input id="usernameInput" class="w3-input w3-round-xxlarge" style="text-align: center;"  placeholder="Your preferred username" type="text" onkeyup="this.value = this.value.replace(/[^a-zA-Z0-9]/, '')" required  />
+    <p id="usernameError" class="w3-left-align w3-animate-top" style="margin-top: -3px;font-size: small;display: none" ><i class="fa fa-warning"></i>&nbsp;&nbsp;Username already in use</p>
+    <input id="emailInput" class="w3-input w3-round-xxlarge w3-margin-top" style="text-align: center;"  placeholder="Your Email" type="email" required  />
+    <p id="emailError" class="w3-left-align w3-animate-top" style="margin-top: -3px;font-size: small;display: none;"></p>
+<div class="w3-row w3-margin-top">
+    <div class="w3-col m4 s4">
+    <img id="captchaImage" class="w3-round " src="captcha_code.php"/>
+    </div>
+        <div class="w3-col m4 s4 ">
+    <input id="captchaInput" class="w3-input w3-round-xxlarge" style="text-align: center;width: 200px"  placeholder="Enter code you see here" type="text" onkeyup="this.value = this.value.replace(/[^a-zA-Z0-9]/, '')" required  />
+    <p id="captchaError" class="w3-animate-top" style="margin-top: -3px;font-size: small;display: none;width: 200px">Invalid captcha</p>
+        </div>
+</div>
     <br>
-    <button onclick="verifyemailcode()" style="min-width: 300px" class="w3-btn w3-round-xxlarge w3-cusdbl w3-padding w3-allerta w3-animate-left">Next&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button><br>
+    <button onclick="validateInfo()" style="min-width: 300px" class="w3-btn w3-round-xxlarge w3-cusdbl w3-padding w3-allerta w3-animate-left">Next&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button><br><br>
+    <button onclick="backCreate2Cover()" class="w3-btn w3-round-xxlarge w3-cusblk w3-padding w3-allerta w3-animate-left"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</button>
 </div>
 
 <div id="otpverifyPage" class="w3-container w3-display-middle w3-center" hidden>
@@ -58,7 +68,8 @@
     <input maxlength="4" minlength="4" class="w3-input w3-round-xxlarge w3-wide" style="text-align: center;"  placeholder="4 digit code" type="text" onkeyup="this.value = this.value.replace(/[^0-9]/, '')" required  />
     <p class="w3-left-align w3-animate-top" style="margin-top: -3px;font-size: small"><i class="fa fa-warning"></i>&nbsp;&nbsp;Invalid Code</p>
     <br>
-    <button onclick="showIdCreated()" style="min-width: 300px" class="w3-btn w3-round-xxlarge w3-cusdbl w3-padding w3-allerta w3-animate-left"><i class="fa fa-plus"></i> &nbsp;Create your feedback link</button><br>
+    <button onclick="showIdCreated()" style="min-width: 300px" class="w3-btn w3-round-xxlarge w3-cusdbl w3-padding w3-allerta w3-animate-left"><i class="fa fa-plus"></i> &nbsp;Create your feedback link</button><br><br>
+    <button onclick="backOtpverify2Create()" class="w3-btn w3-round-xxlarge w3-cusblk w3-padding w3-allerta w3-animate-left"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</button>
 </div>
 
 <div id="idCreatedPage" class="w3-container w3-display-middle w3-center" hidden>
@@ -66,13 +77,12 @@
     <h3 class="w3-text-cuswhi w3-allerta w3-animate-zoom">Let Me Know</h3>
     <i class="fa fa-check w3-text-cusdbl w3-animate-zoom w3-xxxlarge"></i>
     <p class="w3-animate-bottom">Your #LetMeKnow Id is <b>APPSLASH</b></p>
-    <p class="w3-animate-fading" style="font-size: small">Share to receive feedbacks</p>
-    <div class="w3-animate-top w3-center">
-        <a class="w3-cell w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-facebook"></i>&nbsp;&nbsp;Facebook</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a class="w3-cell w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-whatsapp"></i>&nbsp;&nbsp;WhatsApp</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a class="w3-cell w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-copy"></i>&nbsp;&nbsp;Copy Link</a>
-    </div>
+    <p class="w3-animate-fading1" style="font-size: small">Share to receive feedbacks</p>
 
+        <a class="w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-facebook"></i>&nbsp;&nbsp;Facebook</a><br><br>
+
+        <a class="w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-whatsapp"></i>&nbsp;&nbsp;WhatsApp</a><br><br>
+        <a class="w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-copy"></i>&nbsp;&nbsp;Copy Link</a>
 </div>
 <!--<header class="w3-container w3-red">-->
 <!--    <h1>Header</h1>-->
