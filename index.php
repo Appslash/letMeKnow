@@ -14,8 +14,19 @@
 <link rel="stylesheet" href="css/w3.css">
 <script src="js/w3.js"></script>
 <script src="js/functions.js"></script>
-    <meta property="og:title" content="Let Me Know by AppSlash">
-    <meta property="og:title" content="Get anonymous feedbacks about you.">
+    <?php
+    if(isset($_GET['username']))
+    {
+        echo '<meta property="og:title" content="'.$_GET['username'].' asks, Let Me Know, by AppSlash">
+    <meta property="og:description" content="Send an anonymous feedback to '.$_GET['username'].'.">';
+    }
+    else
+    {
+        echo '<meta property="og:title" content="Let Me Know by AppSlash">
+    <meta property="og:description" content="Get anonymous feedbacks about you.">';
+    }
+    ?>
+
     <meta property="og:image" content="https://www.appslash.org/applications/letmeknow/images/logo.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
@@ -65,10 +76,10 @@
     <img src="images/logo.png" style="width: 120px;height: auto" class="w3-animate-top">
     <h3 class="w3-text-cuswhi w3-allerta w3-animate-zoom">Let Me Know</h3>
     <p class="w3-animate-bottom">We sent a 4-digit code to your email verify it here</p>
-    <input maxlength="4" minlength="4" class="w3-input w3-round-xxlarge w3-wide" style="text-align: center;"  placeholder="4 digit code" type="text" onkeyup="this.value = this.value.replace(/[^0-9]/, '')" required  />
-    <p class="w3-left-align w3-animate-top" style="margin-top: -3px;font-size: small"><i class="fa fa-warning"></i>&nbsp;&nbsp;Invalid Code</p>
+    <input id="otpInput" maxlength="4" minlength="4" class="w3-input w3-round-xxlarge w3-wide" style="text-align: center;"  placeholder="4 digit code" type="text" onkeyup="this.value = this.value.replace(/[^0-9]/, '')" required  />
+    <p id="otpError" class="w3-left-align w3-animate-top" style="margin-top: -3px;font-size: small"><i class="fa fa-warning"></i>&nbsp;&nbsp;Invalid Code</p>
     <br>
-    <button onclick="showIdCreated()" style="min-width: 300px" class="w3-btn w3-round-xxlarge w3-cusdbl w3-padding w3-allerta w3-animate-left"><i class="fa fa-plus"></i> &nbsp;Create your feedback link</button><br><br>
+    <button onclick="verifyemailcode()" style="min-width: 300px" class="w3-btn w3-round-xxlarge w3-cusdbl w3-padding w3-allerta w3-animate-left"><i class="fa fa-plus"></i> &nbsp;Create your feedback link</button><br><br>
     <button onclick="backOtpverify2Create()" class="w3-btn w3-round-xxlarge w3-cusblk w3-padding w3-allerta w3-animate-left"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</button>
 </div>
 
@@ -76,22 +87,16 @@
     <img src="images/logo.png" style="width: 120px;height: auto" class="w3-animate-top">
     <h3 class="w3-text-cuswhi w3-allerta w3-animate-zoom">Let Me Know</h3>
     <i class="fa fa-check w3-text-cusdbl w3-animate-zoom w3-xxxlarge"></i>
-    <p class="w3-animate-bottom">Your #LetMeKnow Id is <b>APPSLASH</b></p>
+    <p class="w3-animate-bottom">Your #LetMeKnow Id is <b id="newUsername">APPSLASH</b></p>
+    <p id="copysnip" class="w3-card">https://www.appslash.org/applications/letmeknow/index.php?username=appslash</p>
     <p class="w3-animate-fading1" style="font-size: small">Share to receive feedbacks</p>
 
-        <a class="w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-facebook"></i>&nbsp;&nbsp;Facebook</a><br><br>
+        <a id="facebook" target="_blank" class="w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-facebook"></i>&nbsp;&nbsp;Facebook</a><br><br>
+        <a id="whatsapp" target="_blank" class="w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-whatsapp"></i>&nbsp;&nbsp;WhatsApp</a><br><br>
 
-        <a class="w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-whatsapp"></i>&nbsp;&nbsp;WhatsApp</a><br><br>
-        <a class="w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-copy"></i>&nbsp;&nbsp;Copy Link</a>
+        <button onclick="copycat()" class="w3-btn w3-round-xxlarge w3-cusblk"><i class="fa fa-copy"></i>&nbsp;&nbsp;Copy Link</button>
 </div>
-<!--<header class="w3-container w3-red">-->
-<!--    <h1>Header</h1>-->
-<!--</header>-->
-<!--<p>KUTTA KUTIYA</p>-->
-<!--<footer class="w3-container w3-red w3-center">-->
-<!--    <h5>Copyright &#9400; --><?php //echo date("Y"); ?><!-- AppSlash</h5>-->
-<!--    <p>Footer information goes here</p>-->
-<!--</footer>-->
+
 <div class="w3-display-bottommiddle w3-center">
     <i id="loaderIcon" class="fa fa-spinner w3-xxlarge w3-spin w3-margin-bottom w3-hide"></i>
     <br>
@@ -102,6 +107,7 @@
     <a target="_blank" href="https://twitter.com/teamappslash"><i class="fa fa-twitter w3-large"></i></a>&nbsp;&nbsp;&nbsp;
     <a target="_blank" href="https://www.instagram.com/teamappslash/"><i class="fa fa-instagram w3-large"></i></a>&nbsp;&nbsp;&nbsp;
 </div>
+
 
 
 </body>

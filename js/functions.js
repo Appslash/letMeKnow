@@ -2,7 +2,7 @@ function authenticate(Wresponse) {
     var emailError = document.getElementById("emailError");
     var usernameError = document.getElementById("usernameError");
     var captchaError = document.getElementById("captchaError");
-var response=JSON.parse(Wresponse);
+    var response=JSON.parse(Wresponse);
 
     if(response.captchaValid=="TRUE")
     {
@@ -32,6 +32,26 @@ var response=JSON.parse(Wresponse);
         captchaError.style.display="block";
     }
 }
+
+function register(Wresponse) {
+    var otpError = document.getElementById("otpError");
+    var response=JSON.parse(Wresponse);
+    
+    if(response.otpValid=="TRUE" && response.registerValid=="TRUE")
+    {
+        document.getElementById("newUsername").innerHTML=response.username;
+        document.getElementById("copysnip").innerHTML="https://www.appslash.org/applications/letmeknow/index.php?username="+response.username;
+        document.getElementById("facebook").href="http://www.facebook.com/sharer.php?u=https://www.appslash.org/applications/letmeknow/index.php?username="+response.username;
+        document.getElementById("whatsapp").href="whatsapp://send?text=Hi, Do LetMeKnow an honest feedback about me anonymously. Visit https://www.appslash.org/applications/letmeknow/index.php?username="+response.username;
+        w3.hide('#otpverifyPage');
+        w3.show("#idCreatedPage");
+    }
+    else
+    {
+        otpError.style.display="block";
+    }
+}
+
 function validateInfo()
 {
     var username = document.getElementById("usernameInput").value;
@@ -47,7 +67,7 @@ function validateInfo()
         {
             if(username)
             {
-               w3.getHttpData('verifyuser.php?captcha='+captcha+'&email='+email+'&username='+username,authenticate);
+                w3.getHttpData('verifyuser.php?captcha='+captcha+'&email='+email+'&username='+username,authenticate);
             }
             else
             {
@@ -71,19 +91,31 @@ function validateInfo()
 
 function createprofile()
 {
-w3.hide('#coverPage');
-w3.show('#createPage');
+    w3.hide('#coverPage');
+    w3.show('#createPage');
     document.getElementById('captchaImage').src='captcha_code.php';
     w3.hide('#emailError');
     w3.hide('#usernameError');
     w3.hide('#captchaError');
+    w3.hide('#otpError');
 
 }
 
 function verifyemailcode()
 {
-w3.hide('#createPage');
-    w3.show('#otpverifyPage');
+
+    var otp = document.getElementById("otpInput").value;
+    var otpError = document.getElementById("otpError");
+    
+        if(otp)
+        {
+            w3.getHttpData('validateinfo.php?otp='+otp,register);
+        }
+        else
+        {
+            otpError.style.display="block";
+        }
+        
 }
 function showIdCreated()
 {
@@ -104,8 +136,6 @@ function backOtpverify2Create()
     w3.hide('#emailError');
     w3.hide('#usernameError');
     w3.hide('#captchaError');
-
-
 }
 
 function ValidateEmail(mail)
@@ -116,4 +146,10 @@ function ValidateEmail(mail)
     }
 
     return (false)
+}
+
+function copycat() {
+    /* Get the text field */
+    window.getSelection().selectAllChildren(document.getElementById("copysnip"));
+    document.execCommand("Copy");
 }
